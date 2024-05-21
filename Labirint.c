@@ -1,6 +1,5 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
-
 #define N 10
 
 int validare(int si, int sj, int labirint[N][N]) {
@@ -24,10 +23,33 @@ void afisare(int labirint[N][N]) {
     printf("\n");
 }
 
+void afisareMiscari(int* st, int varf)
+{
+    for (int i = 0; i < varf; i++)
+    {
+        switch (st[i])
+        {
+        case 0: printf("Jos\n");
+            break;
+        case 1: printf("Stanga\n");
+            break;
+        case 2: printf("Sus\n");
+            break;
+        case 3: printf("Dreapta\n");
+            break;
+        }
+    }
+}
+
 int rezolvareLabirint(int* st, int varf, int labirint[N][N], int si, int sj, int fi, int fj) {
     if (solutie(si, sj, fi, fj)) {
         labirint[si][sj] = 2;  // Marcare a celulei finale în cale
         afisare(labirint);
+		printf("Doresti sa aflii si miscariile? (1/0): ");
+		int optiune;
+		scanf("%d", &optiune);
+		if (optiune == 1)
+			afisareMiscari(st, varf);
         return 1;
     }
 
@@ -67,9 +89,32 @@ int main() {
         {1, 1, 0, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-    int stiva[N * N];
-    if (!rezolvareLabirint(stiva, 0, labirint, 0, 0, 9, 9))
-        printf("Nu exista solutie!\n");
+    int stiva[N * N],varf=0,optiune;
+	printf("=======MENIU=======\n");
+	printf("1. Rezolvare labirint\n");
+	printf("0. Iesire\n");
+	printf("Optiunea dvs.: ");
+	scanf("%d", &optiune);
+    while (1)
+    {
+		switch (optiune)
+		{
+		case 1:
+			if (!rezolvareLabirint(stiva, varf, labirint, 0, 0, 9, 9))
+				printf("Nu exista solutie!\n");
+			break;
+		case 0:
+			exit(0);
+		default:
+			printf("Optiune invalida!\n");
+			break;
+		}
+        printf("1. Rezolvare labirint\n");
+        printf("2. Afisare miscari\n");
+        printf("0. Iesire\n");
+        printf("Optiunea dvs.: ");
+        scanf("%d", &optiune);
+    }
 
     return 0;
 }
